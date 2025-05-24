@@ -1,0 +1,90 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "BookingSystem.API.Protos";
+
+package booking;
+
+service BookingService {
+  // Book an inventory item
+  rpc Book (BookRequest) returns (BookResponse);
+  
+  // Cancel a booking
+  rpc Cancel (CancelRequest) returns (CancelResponse);
+  
+  // Import members from CSV
+  rpc ImportMembers (ImportRequest) returns (ImportResponse);
+  
+  // Import inventory from CSV
+  rpc ImportInventory (ImportRequest) returns (ImportResponse);
+  
+  // Get all members
+  rpc GetMembers (GetMembersRequest) returns (GetMembersResponse);
+  
+  // Get all inventory items
+  rpc GetInventory (GetInventoryRequest) returns (GetInventoryResponse);
+}
+
+
+message BookRequest {
+  string member_email = 1;
+  string inventory_item_name = 2;
+}
+
+message BookResponse {
+  bool success = 1;
+  string booking_reference = 2;
+  string error_message = 3;
+}
+
+message CancelRequest {
+  string reference_number = 1;
+}
+
+message CancelResponse {
+  bool success = 1;
+  string error_message = 2;
+}
+
+message ImportRequest {
+  bytes file_content = 1;
+  string file_name = 2;
+}
+
+message ImportResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message GetMembersRequest {
+}
+
+message Member {
+  int32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string email = 4;
+  google.protobuf.Timestamp date_joined = 5;
+  int32 booking_count = 6;
+  int32 active_bookings_count = 7;
+}
+
+message GetMembersResponse {
+  repeated Member members = 1;
+}
+
+message GetInventoryRequest {
+}
+
+message InventoryItem {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  google.protobuf.Timestamp expiration_date = 4;
+  int32 remaining_count = 5;
+}
+
+message GetInventoryResponse {
+  repeated InventoryItem items = 1;
+}
