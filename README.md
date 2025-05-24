@@ -91,7 +91,8 @@ BEGIN
         FOREIGN KEY ([InventoryItemId]) REFERENCES [dbo].[InventoryItems]([Id])
     );
 END
-GO```
+GO
+```
 
 # API Endpoints
 **Bookings**
